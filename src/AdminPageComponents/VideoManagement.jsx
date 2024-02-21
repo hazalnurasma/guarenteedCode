@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import VideoFooter from './VideoFooter';
 import Guidence from './Guidence';
-import Navbar from './Navbar';
-import App from '../App.css';
+import Navbar from './Navbar.jsx';
+import '../App.css';
 
 // import BothSelectednPool from './ManagementPanelComponents/BothSelectednPool';
 import SortedVideo from './SelectedVideos/SortedVideo.jsx';

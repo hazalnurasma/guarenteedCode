@@ -4,7 +4,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 2.5vh;
+    margin-top: 3rem;
 }
 
 .info{
@@ -162,4 +162,67 @@
 
   .change-ex-btn:hover {
     background-color: rgb(208, 43, 43);
+  }
+
+  /* RESPONSIVE DESIGN */
+
+  @media screen and (max-width: 1070px) {
+
+    .drag-drop-area, .video-remove-modal, .add-to-pool-container {
+      margin-left: 10%;
+      width: 80%;
+    }
+
+    #video-title {
+      width: 80%;
+    }
+
+    .video-title-container {
+      width: 100%;
+    }
+
+    .route-video-management {
+      margin-top: 10%;
+      margin-left: 10%;
+      width: 80%;
+    }
+  
+    /* .info {
+      margin-left: 80%;
+    } */
+  
+    .change-container {
+      margin-left: 10%;
+    }
+
+  }
+  
+  @media screen and (max-width: 500px) {
+    .drag-drop-area, .video-remove-modal, .add-to-pool-container {
+      margin-left: 5%;
+      width: 90%;
+    }
+
+    #video-title {
+      width: 90%;
+    }
+
+    .video-title-container {
+      width: 100%;
+    }
+
+    .route-video-management {
+      margin-top: 5%;
+      margin-left: 5%;
+      width: 90%;
+    }
+
+/*   
+    .info {
+      margin-left: 85%;
+    } */
+  
+    .change-container {
+      margin-left: 5%;
+    }
   }

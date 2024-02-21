@@ -32,20 +32,20 @@ const VideoPool = () => {
     'Video 20',
   ]);
 
-  // Aktif sayfadaki video listesi
+  // video list of current page
   const indexOfLastVideo = currentPage * videosPerPage;
   const indexOfFirstVideo = indexOfLastVideo - videosPerPage;
   const currentVideos = allVideos.slice(indexOfFirstVideo, indexOfLastVideo);
 
-  // Sayfa numarasını değiştirme fonksiyonu
+  // change page number
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // Video silme fonksiyonu
+  // video deleting func
   const handleDelete = (index) => {
     const updatedVideos = [...allVideos];
     updatedVideos.splice(indexOfFirstVideo + index, 1); // Doğru indeksi silmek için indexOfFirstVideo'e ekleyin
     setAllVideos(updatedVideos);
-    // Eğer silinen son video son sayfadaysa, sayfayı bir azaltın
+    // decrease page number
     if (currentVideos.length === 1 && currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
@@ -60,7 +60,7 @@ const VideoPool = () => {
   return (
     <div className='Container'>
       <div className='titles'>
-        <h1 className='first-title'>Video Pool</h1>
+        <h1 className='first-title'>All Videos</h1>
         <h2 className='second-title'>View and browse all videos, edit video details, secure video deletion. All in one.</h2>
       </div>
       <div className="video-pool">

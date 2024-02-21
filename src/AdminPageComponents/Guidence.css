@@ -9,3 +9,15 @@
     font-weight: 500;
     font-size: 22px;
 }
+
+@media screen and (max-width: 1070px) {
+    .title{
+        font-size: 110%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .title{
+        font-size: 90%;
+    }
+}

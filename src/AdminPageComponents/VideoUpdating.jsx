@@ -103,9 +103,9 @@ const VideoUpdating = ({ files, setFiles }) => {
     return ( 
 
         <div className='video-container'>
-            <div className='info'>
+            {/* <div className='info'>
                 <img className="i-symbol" src={info}></img>
-            </div>
+            </div> */}
             <h1 className='page-title'>Choose MP4 Files</h1>
             <div className="drag-drop-area"
                 onDragOver={handleDragOver}

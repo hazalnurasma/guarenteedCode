@@ -21,8 +21,8 @@ const SortedVideo = ({ videos }) => {
     <div className="selected-video-container">
 
       <div className='titles'>
-        <h1 className="selected-title">Selected Videos</h1>
-        <h2 className='selected-paragraph'>These 5 videos will shown to user.</h2>
+        <h1 className="selected-title">Video Order</h1>
+        <h2 className='selected-paragraph'>You can change the order in which videos are shown to users..</h2>
       </div>
       {/* <ul>
           {numbers.map((number) => (

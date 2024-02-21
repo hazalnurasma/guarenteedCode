@@ -14,3 +14,25 @@
     font-size: 18px;
     font-weight: 550;
 }
+
+@media screen and (max-width: 1070px) {
+    .footer {
+        width: 90%;
+    }
+
+    .footer-text {
+        margin-top: 5%;
+    }
+
+}
+
+@media screen and (max-width: 500px) {
+    .footer {
+        width:90%;
+        padding-bottom: 2rem;
+    }
+
+    .footer-text {
+        margin-top: 10%;
+    }
+}

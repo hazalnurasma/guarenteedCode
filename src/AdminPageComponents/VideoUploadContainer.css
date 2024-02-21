@@ -4,7 +4,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 2.5vh;
+    margin-top: 3rem;
 }
 
 .info{
@@ -163,3 +163,86 @@
   .add-to-pool-btn:hover {
     background-color: rgb(7, 75, 132);
   }
+
+  .route-video-management {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-left: 1.7rem;
+    margin-top: -1rem;
+    padding-bottom: 1rem;
+  }
+
+  .go-to-management {
+    width: 8rem;
+    height: 4.4rem;
+    background-color: rgb(225, 46, 46);
+    color: whitesmoke;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 5px;
+    padding: 5px 10px 7px;
+    cursor: pointer;
+    transition: .3s;
+  }
+
+  .go-to-management:hover {
+    background-color: rgb(199, 51, 51);
+    box-shadow: 2px 2px 10px 1px rgb(127, 127, 127);
+  }
+
+  /* RESPONSIVE DESIGN */
+
+  @media screen and (max-width: 1070px) {
+
+    .drag-drop-area, .video-remove-modal, .add-to-pool-container {
+      margin-left: 10%;
+      width: 80%;
+    }
+
+    .video-title-container {
+      width: 100%;
+    }
+
+    .route-video-management {
+      margin-top: 10%;
+      margin-left: 10%;
+      width: 80%;
+    }
+  
+    /* .info {
+      margin-left: 80%;
+    } */
+  
+    .add-to-pool-container {
+      margin-left: 10%;
+    }
+
+  }
+  
+  @media screen and (max-width: 500px) {
+    .drag-drop-area, .video-remove-modal, .add-to-pool-container {
+      margin-left: 5%;
+      width: 90%;
+    }
+
+    .video-title-container {
+      width: 100%;
+    }
+
+    .route-video-management {
+      margin-top: 5%;
+      margin-left: 5%;
+      width: 90%;
+    }
+
+/*   
+    .info {
+      margin-left: 85%;
+    } */
+  
+    .add-to-pool-container {
+      margin-left: 5%;
+    }
+  }
+  

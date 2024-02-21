@@ -108,9 +108,9 @@ const VideoUploadContainer = ({ files, setFiles }) => {
     return ( 
 
         <div className='video-container'>
-            <div className='info'>
+            {/* <div className='info'>
                 <img className="i-symbol" src={info}></img>
-            </div>
+            </div> */}
             <h1 className='page-title'>Choose MP4 Files</h1>
             <div className="drag-drop-area"
                 onDragOver={handleDragOver}
@@ -154,7 +154,7 @@ const VideoUploadContainer = ({ files, setFiles }) => {
                 </div>
 
                  <div className="add-to-pool-container">
-                    <button type='submit' className="add-to-pool-btn" onClick={handleAddToPool}>Add to Pool</button>
+                    <button type='submit' className="add-to-pool-btn" onClick={handleAddToPool}>Add to All Videos</button>
                 </div>
 
                 <div className='route-video-management'>

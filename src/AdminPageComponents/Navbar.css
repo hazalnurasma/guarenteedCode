@@ -36,3 +36,37 @@
     /* border-bottom: 1px solid #ccc; */
 }
 
+/*  RESPONSIVE DESIGN  */
+
+@media screen and (max-width: 1070px) {
+    .logo {
+        width: 8%;
+        max-width: 10%;
+    }
+
+    .first-button {
+        font-size: 14px;
+        margin-left: -4rem;
+    }
+    
+    .user {
+        width: 20px;
+        /* margin-left: -1rem; */
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .logo {
+        width: 15%;
+    }
+
+    .first-button {
+        font-size: 12px;
+        width: 70px;
+    }
+
+    .user {
+        width: 15px;
+    }
+
+}
