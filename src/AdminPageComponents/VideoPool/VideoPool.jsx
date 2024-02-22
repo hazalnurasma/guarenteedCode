@@ -1,36 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './VideoPool.css';
 import { CiEdit, CiTrash } from "react-icons/ci";
 import { useNavigate } from 'react-router-dom';
+import { fetchVideoNamesFromDatabase } from '../api';
 
 
 const VideoPool = () => {
-  const [currentPage, setCurrentPage] = useState(1); // Aktif sayfa numarası
-  const videosPerPage = 10; // Sayfa başına gösterilecek video sayısı
+  const [currentPage, setCurrentPage] = useState(1); 
+  const videosPerPage = 10; 
+  const [allVideos, setAllVideos] = useState([]);
 
-  // Tüm video isimlerinin bir listesi (örneğin, veritabanından alınabilir)
-  const [allVideos, setAllVideos] = useState([
-    'adres gezgini ',
-    'canva 100.yıl',
-    'lol12345 aa ',
-    'Video 4 ',
-    'Video 5 ',
-    'Video 6 ',
-    'Video 7 ',
-    'Video 8 ',
-    'Video 9 ',
-    'Video 10',
-    'Video 11',
-    'Video 12',
-    'Video 13',
-    'Video 14',
-    'Video 15',
-    'Video 16',
-    'Video 17',
-    'Video 18',
-    'Video 19',
-    'Video 20',
-  ]);
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const videoNames = await fetchVideoNamesFromDatabase();
+        setAllVideos(videoNames);
+      } catch (error) {
+        console.error('Error fetching videos:', error);
+      }
+    };
+
+    fetchVideos();
+  }, []);
 
   // video list of current page
   const indexOfLastVideo = currentPage * videosPerPage;
@@ -89,31 +80,3 @@ const VideoPool = () => {
 };
 
 export default VideoPool;
-
-// When we'll handle database connection:
-
-// import React, { useState, useEffect } from 'react';
-
-// const VideoList = () => {
-//   const [videos, setVideos] = useState([]);
-
-//   useEffect(() => {
-//     fetch('/api/videos')
-//       .then(response => response.json())
-//       .then(data => setVideos(data))
-//       .catch(error => console.error('Veri alınırken hata oluştu:', error));
-//   }, []);
-
-//   return (
-//     <div>
-//       <h2>Video Listesi</h2>
-//       <ul>
-//         {videos.map((video, index) => (
-//           <li key={index}>{video.title}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
-
-// export default VideoList;
