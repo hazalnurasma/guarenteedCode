@@ -239,3 +239,14 @@ export const fetchVideoNamesFromDatabase = async () => {
     throw error;
   }
 };
+
+// Belirli bir videoyu veritabanından silmek için bir fonksiyon (videopool.jsx)
+export const deleteVideoFromDatabase = async (videoId) => {
+  const endpoint = `/api/videos/${videoId}`; 
+  try {
+    const response = await instance.delete(endpoint);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

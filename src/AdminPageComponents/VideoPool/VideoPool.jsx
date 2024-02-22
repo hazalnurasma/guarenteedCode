@@ -3,6 +3,7 @@ import './VideoPool.css';
 import { CiEdit, CiTrash } from "react-icons/ci";
 import { useNavigate } from 'react-router-dom';
 import { fetchVideoNamesFromDatabase } from '../api';
+import { deleteVideoFromDatabase } from '../api';
 
 
 const VideoPool = () => {
@@ -32,13 +33,25 @@ const VideoPool = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   // video deleting func
-  const handleDelete = (index) => {
-    const updatedVideos = [...allVideos];
-    updatedVideos.splice(indexOfFirstVideo + index, 1); // Doğru indeksi silmek için indexOfFirstVideo'e ekleyin
-    setAllVideos(updatedVideos);
-    // decrease page number
-    if (currentVideos.length === 1 && currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+  const handleDelete = async (index) => {
+    try {
+      // Silinecek videoyu belirlemek için video index'ini kullanabilirsiniz
+      const videoToDelete = allVideos[indexOfFirstVideo + index];
+
+      // Veritabanından videoyu silme isteği gönderiyoruz
+      await deleteVideoFromDatabase(videoToDelete.id);
+
+      // Silme işlemi başarılı olduktan sonra listeden de kaldırıyoruz
+      const updatedVideos = [...allVideos];
+      updatedVideos.splice(indexOfFirstVideo + index, 1);
+      setAllVideos(updatedVideos);
+
+      // Sayfa numarasını azaltma
+      if (currentVideos.length === 1 && currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+    } catch (error) {
+      console.error('Error deleting video:', error);
     }
   };
 
