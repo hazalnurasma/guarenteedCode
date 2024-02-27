@@ -1,13 +1,12 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import './VideoUploadContainer.css';
-import info from './Assets/info.png';
-import { useHistory, useNavigate } from 'react-router-dom';
+import { formData } from "../../../api.jsx";
 
 const VideoUploadContainer = ({ files, setFiles }) => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
-  const [selectedVideo, setSelectedVideo] = useState(null);
-  const [videoTitle, setVideoTitle] = useState(''); 
+  const [selectedVideo, setSelectedVideo] = useState(null);  // for video remove modal
+  const [videoTitle, setVideoTitle] = useState('');  // for input of video title
 
   const isMP4Video = (file) => {
     return file.type === 'video/mp4';
@@ -34,7 +33,7 @@ const VideoUploadContainer = ({ files, setFiles }) => {
         // MP4 dosyalarını işleme al
         handleFiles(mp4Files);
       } else {
-        alert("Lütfen sadece MP4 formatındaki videoları yükleyin.");
+        alert("You can only upload MP4 a file.");
       }
     }
   };
@@ -44,7 +43,7 @@ const VideoUploadContainer = ({ files, setFiles }) => {
     if (selectedFile && isMP4Video(selectedFile)) {
       handleFiles([selectedFile]);
     } else {
-      alert("Lütfen sadece MP4 formatındaki videoları seçin.");
+      alert("You can only upload MP4 a file.");
     }
   };
 
@@ -59,54 +58,49 @@ const VideoUploadContainer = ({ files, setFiles }) => {
   };
 
   const handleVideoTitleChange = (e) => {
-    setVideoTitle(e.target.value);
+    e.persist();
+    setVideoTitle({...videoTitle, [e.target.title]: e.target.value});
   };
 
-  const handleAddToPool = () => {
-    // Burada veritabanına gönderme işlemi yapılacak
-    // Örnek olarak, videoTitle ve files state'lerini kullanarak bir API çağrısı yapabilirsiniz
-    console.log("Video başlığı:", videoTitle);
-    console.log("Yüklenen dosyalar:", files);
-
-    // **Veritabanına gönderme işlemini buraya ekleyin:**
-
-    const formData = new FormData();
-    formData.append('videoTitle', videoTitle);
-    for (const file of files) {
-      formData.append('files', file);
-    }
-
-    fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    }).then((response) => {
+  const handleAddToPool = async (accessToken) => {
+    try {
+      console.log("Video Title:", videoTitle);
+      console.log("Uploaded Files:", files);
+  
+      // Video ve dosyaları bir nesne olarak oluşturun
+      const videoData = new FormData();
+      videoData.append('videoTitle', videoTitle);
+      for (const file of files) {
+        videoData.append('files', file);
+      }
+  
+      // formData fonksiyonunu kullanarak verileri API'ye gönderin
+      const response = await formData(accessToken, videoData);
+  
+      console.log("Response:", response);
+  
       if (response.ok) {
-        console.log("Video başarıyla yüklendi!");
+        console.log("Video uploaded succesfully!");
         // Yükleme işlemi tamamlandıktan sonra state'leri sıfırlayabilirsiniz
         setVideoTitle('');
         setFiles([]);
       } else {
-        console.error("Video yükleme sırasında bir hata oluştu!");
+        console.error("An error occurred while uploading the video!");
       }
-    });
+    } catch (error) {
+      console.error("An error occurred while uploading the video:", error);
+    }
   };
 
   const handleFiles = (newFiles) => {
     if (files.length === 0) {
       setFiles(newFiles.slice(0, 1)); 
     } else {
-      alert("Yalnızca 1 adet video yükleyebilirsiniz.");
+      alert("You can only choose one file.");
     }
   };
 
-  const navigate = useNavigate();
-
-  const handleGoToManagement = () => {
-    navigate('/VideoManagement');
-  };
-
     return ( 
-
         <div className='video-container'>
             {/* <div className='info'>
                 <img className="i-symbol" src={info}></img>
@@ -143,24 +137,18 @@ const VideoUploadContainer = ({ files, setFiles }) => {
             )}
             {selectedVideo && (
                 <div className="video-remove-modal">
-                    <h2 className='confirm-text'>Are you sure you want to remove "{selectedVideo.name}"?</h2>
+                    <h2 className='confirm-text'>Are you sure you want to remove {selectedVideo.name}?</h2>
                     <button className="remove-confirm" onClick={() => confirmRemoveVideo()}>Remove</button>
                     <button className="remove-cancel" onClick={() => setSelectedVideo(null)}>Cancel</button>
                 </div>
             )}
                 <div className="video-title-container">
                     <label htmlFor="video-title" className='video-head'>Video Title:</label>
-                    <input type="text" id="video-title" placeholder='ect: First Training Video' value={videoTitle} onChange={handleVideoTitleChange} />
+                    <input type="text" id="video-title" placeholder='example: First Training Video' value={videoTitle.title} onChange={handleVideoTitleChange} />
                 </div>
 
                  <div className="add-to-pool-container">
                     <button type='submit' className="add-to-pool-btn" onClick={handleAddToPool}>Add to All Videos</button>
-                </div>
-
-                <div className='route-video-management'>
-                  <button type='submit' className='go-to-management' onClick={handleGoToManagement}>
-                     Go to Video Management Panel
-                  </button>
                 </div>
         </div>
     );
