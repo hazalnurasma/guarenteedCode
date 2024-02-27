@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './VideoPool.css';
 import { CiEdit, CiTrash } from "react-icons/ci";
+import { IoCheckmarkOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
 
 
 const VideoPool = () => {
   const [currentPage, setCurrentPage] = useState(1); // Aktif sayfa numarası
-  const videosPerPage = 10; // Sayfa başına gösterilecek video sayısı
-
-  // Tüm video isimlerinin bir listesi (örneğin, veritabanından alınabilir)
+  const [videosPerPage] = useState(10); // Sayfa başına gösterilecek video sayısı
   const [allVideos, setAllVideos] = useState([
     'adres gezgini ',
     'canva 100.yıl',
@@ -31,30 +30,35 @@ const VideoPool = () => {
     'Video 19',
     'Video 20',
   ]);
+  const [editingIndex, setEditingIndex] = useState(-1);
+  const [editedName, setEditedName] = useState('');
+  const navigate = useNavigate();
 
-  // video list of current page
   const indexOfLastVideo = currentPage * videosPerPage;
   const indexOfFirstVideo = indexOfLastVideo - videosPerPage;
   const currentVideos = allVideos.slice(indexOfFirstVideo, indexOfLastVideo);
 
-  // change page number
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // video deleting func
   const handleDelete = (index) => {
     const updatedVideos = [...allVideos];
-    updatedVideos.splice(indexOfFirstVideo + index, 1); // Doğru indeksi silmek için indexOfFirstVideo'e ekleyin
+    updatedVideos.splice(indexOfFirstVideo + index, 1);
     setAllVideos(updatedVideos);
-    // decrease page number
     if (currentVideos.length === 1 && currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
   };
 
-  const navigate = useNavigate();
+  const handleEdit = (index) => {
+    setEditingIndex(indexOfFirstVideo + index);
+    setEditedName(allVideos[indexOfFirstVideo + index]);
+  };
 
-  const handleEdit = () => {
-    navigate('/ChangeExistingVideo');
+  const handleSaveEdit = (index) => {
+    const updatedVideos = [...allVideos];
+    updatedVideos[indexOfFirstVideo + index] = editedName;
+    setAllVideos(updatedVideos);
+    setEditingIndex(-1);
   };
 
   return (
@@ -67,16 +71,42 @@ const VideoPool = () => {
         <div className="video-list">
           {currentVideos.map((video, index) => (
             <div className="video-item" key={index}>
-              {video}
-              <div class="item-pack">
-                <CiEdit className='item' size='1.2rem' cursor='pointer' onClick={handleEdit} />
-                <CiTrash className='item-2' size='1.2rem' cursor='pointer' onClick={() => handleDelete(index)} />
+              {editingIndex === index + indexOfFirstVideo ? (
+                <div className="edit-container">
+                  <input
+                    className='input-field'
+                    type="text"
+                    value={editedName}
+                    onChange={(e) => setEditedName(e.target.value)}
+                  />
+                  <IoCheckmarkOutline 
+                    className="done-icon"
+                    size='1.7rem'
+                    cursor='pointer'
+                    onClick={() => handleSaveEdit(index)}
+                  />
+                </div>
+              ) : (
+                <span>{video}</span>
+              )}
+              <div className="item-pack">
+                <CiEdit
+                  className='item'
+                  size='1.7rem'
+                  cursor='pointer'
+                  onClick={() => handleEdit(index)}
+                />
+                <CiTrash
+                  className='item-2'
+                  size='1.7rem'
+                  cursor='pointer'
+                  onClick={() => handleDelete(index)}
+                />
               </div>
             </div>
           ))}
         </div>
         <div className="pagination">
-          {/* Sayfa numaralarını oluştur */}
           {[...Array(Math.ceil(allVideos.length / videosPerPage)).keys()].map((number) => (
             <div key={number} onClick={() => paginate(number + 1)} className="page-number">
               {number + 1}
@@ -89,31 +119,3 @@ const VideoPool = () => {
 };
 
 export default VideoPool;
-
-// When we'll handle database connection:
-
-// import React, { useState, useEffect } from 'react';
-
-// const VideoList = () => {
-//   const [videos, setVideos] = useState([]);
-
-//   useEffect(() => {
-//     fetch('/api/videos')
-//       .then(response => response.json())
-//       .then(data => setVideos(data))
-//       .catch(error => console.error('Veri alınırken hata oluştu:', error));
-//   }, []);
-
-//   return (
-//     <div>
-//       <h2>Video Listesi</h2>
-//       <ul>
-//         {videos.map((video, index) => (
-//           <li key={index}>{video.title}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
-
-// export default VideoList;

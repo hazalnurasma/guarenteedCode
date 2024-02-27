@@ -9,7 +9,7 @@ import {useNavigate} from "react-router-dom";
 
 const SortedVideo = ({ videos }) => {
 
-  const numbers = [1 , 2, 3, 4, 5];
+  // const numbers = [1 , 2, 3, 4, 5];
 
   const navigate = useNavigate();
 
